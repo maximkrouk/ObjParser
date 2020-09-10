@@ -28,7 +28,7 @@ func getObjLineComponents<T: ObjLineParsable>(for type: T.Type, from line: Strin
         .components(separatedBy: .whitespaces)
         
     guard components.first == type.key else { return nil }
-    return Array(components.dropFirst())
+    return Array(components.dropFirst().filter(\.isEmpty))
 }
 
 func extractNextComponent(from components: inout [String]) -> String? {
