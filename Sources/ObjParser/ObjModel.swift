@@ -1,17 +1,17 @@
 import Foundation
 
 public struct ObjModel {
-    public init(vertices: [ObjVertex] = [], vertexTextures: [ObjVertexTexture] = [], vertexNormals: [ObjVertexNormal] = [], polygons: [ObjPolygon] = []) {
+    public init(vertices: [ObjVertex] = [], vertexTextures: [ObjVertexTexture] = [], vertexNormals: [ObjVertexNormal] = [], polygons: [ObjFace] = []) {
         self.vertices = vertices
         self.vertexTextures = vertexTextures
         self.vertexNormals = vertexNormals
-        self.polygons = polygons
+        self.faces = polygons
     }
     
     public var vertices: [ObjVertex] = []
     public var vertexTextures: [ObjVertexTexture] = []
     public var vertexNormals: [ObjVertexNormal] = []
-    public var polygons: [ObjPolygon] = []
+    public var faces: [ObjFace] = []
     
     public static func parse(from string: String) -> ObjModel? {
         var output = ObjModel()
@@ -20,7 +20,7 @@ public struct ObjModel {
             ObjVertex.self,
             ObjVertexTexture.self,
             ObjVertexNormal.self,
-            ObjPolygon.self
+            ObjFace.self
         ]
         
         let lines = getObjComponentLines(from: string, expectedKeys: parsers.map { $0.key })
@@ -35,8 +35,8 @@ public struct ObjModel {
             } else if let normal = object as? ObjVertexNormal {
                 output.vertexNormals.append(normal)
                 
-            } else if let polygon = object as? ObjPolygon {
-                output.polygons.append(polygon)
+            } else if let polygon = object as? ObjFace {
+                output.faces.append(polygon)
             }
         }
         

@@ -1,17 +1,17 @@
 import Foundation
 
-public struct ObjPolygon: ObjLineParsable {
+public struct ObjFace: ObjLineParsable {
     static let key: String = "f"
     
     public var vertexIndices: [Int] = []
     public var textureIndices: [Int] = []
     public var normalIndices: [Int] = []
     
-    static func parse(from line: String) -> ObjPolygon? {
+    static func parse(from line: String) -> ObjFace? {
         guard var components = getObjLineComponents(for: self, from: line)
         else { return nil }
         
-        var output = ObjPolygon()
+        var output = ObjFace()
         
         func parseIndices(from component: String) {
             var params = component.components(separatedBy: "/")
