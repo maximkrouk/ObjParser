@@ -1,15 +1,23 @@
-public struct ObjVertex: ObjLineParsable {
+import simd
+
+@dynamicMemberLookup
+public struct ObjVertex: Equatable, RawRepresentable, ObjLineParsable {
     static let key: String = "v"
     
-    public init(x: Double, y: Double, z: Double, w: Double = 1) {
-        self.x = x
-        self.y = y
-        self.z = z
-        self.w = w
+    public init(x: Float, y: Float, z: Float, w: Float = 1) {
+        self.init(rawValue: .init(x, y, z, w))
     }
     
-    public var x, y, z: Double
-    public var w: Double = 1
+    public init(rawValue: simd_float4) {
+        self.rawValue = rawValue
+    }
+    
+    public var rawValue: simd_float4
+    
+    public subscript<T>(dynamicMember keyPath: WritableKeyPath<simd_float4, T>) -> T {
+        get { rawValue[keyPath: keyPath] }
+        set { rawValue[keyPath: keyPath] = newValue }
+    }
     
     static func parse(from line: String) -> ObjVertex? {
         guard var components = getObjLineComponents(for: self, from: line)

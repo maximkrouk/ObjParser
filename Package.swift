@@ -19,6 +19,6 @@ let package = Package(
             dependencies: [
                 .target(name: "ObjParser")
             ]
-        ),
+        )
     ]
 )

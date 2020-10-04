@@ -1,11 +1,11 @@
 import Foundation
 
-public struct ObjModel {
-    public init(vertices: [ObjVertex] = [], vertexTextures: [ObjVertexTexture] = [], vertexNormals: [ObjVertexNormal] = [], polygons: [ObjFace] = []) {
+public struct ObjModel: Equatable {
+    public init(vertices: [ObjVertex] = [], vertexTextures: [ObjVertexTexture] = [], vertexNormals: [ObjVertexNormal] = [], faces: [ObjFace] = []) {
         self.vertices = vertices
         self.vertexTextures = vertexTextures
         self.vertexNormals = vertexNormals
-        self.faces = polygons
+        self.faces = faces
     }
     
     public var vertices: [ObjVertex] = []
@@ -23,7 +23,7 @@ public struct ObjModel {
             ObjFace.self
         ]
         
-        let lines = getObjComponentLines(from: string, expectedKeys: parsers.map { $0.key })
+        let lines = string.components(separatedBy: .newlines)
         
         func append(_ object: ObjLineParsable) {
             if let vertex = object as? ObjVertex {

@@ -1,19 +1,18 @@
 import Foundation
+import simd
 
-public struct ObjVertexTexture: ObjLineParsable {
+public struct ObjVertexTexture: Equatable, RawRepresentable, ObjLineParsable {
     static let key: String = "vt"
     
-    public init(u: Double, v: Double = 0, w: Double = 0) {
-        self.u = u
-        self.v = v
-        self.w = w
+    public init(u: Float, v: Float = 0, w: Float = 0) {
+        self.init(rawValue: .init(u, v, w))
     }
     
-    public var u: Double
-    public var v: Double = 0
-    public var w: Double = 0
+    public init(rawValue: simd_float3) {
+        self.rawValue = rawValue
+    }
     
-    public func map<T>(_ transform: (Double, Double, Double) -> T) -> T { transform(u, v, w) }
+    public var rawValue: simd_float3
     
     static func parse(from line: String) -> ObjVertexTexture? {
         guard var components = getObjLineComponents(for: self, from: line)
@@ -24,5 +23,22 @@ public struct ObjVertexTexture: ObjLineParsable {
         let w = extractNextValue(from: &components) ?? 0
         
         return ObjVertexTexture(u: u, v: v, w: w)
+    }
+}
+
+extension ObjVertexNormal {
+    public var u: Float {
+        get { rawValue.x }
+        set { rawValue.x = newValue }
+    }
+    
+    public var v: Float {
+        get { rawValue.y }
+        set { rawValue.y = newValue }
+    }
+    
+    public var w: Float {
+        get { rawValue.z }
+        set { rawValue.z = newValue }
     }
 }

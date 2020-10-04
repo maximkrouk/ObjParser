@@ -1,6 +1,6 @@
 import Foundation
 
-public struct ObjFace: ObjLineParsable {
+public struct ObjFace: Equatable, ObjLineParsable {
     static let key: String = "f"
     
     public var vertexIndices: [Int] = []
